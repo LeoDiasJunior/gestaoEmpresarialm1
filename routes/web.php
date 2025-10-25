@@ -7,6 +7,8 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 
+Route::post('/users/store', [UserController::class, 'store'])->name('users.store');
+
 Route::get('/', [HomeController::class, 'index']);
 
 Route::get('/produtos', [ProdutoController::class, 'index']);
@@ -16,7 +18,7 @@ Route::get('/produtos/{id}', [ProdutoController::class, 'show']);
 Route::get('/sobre', [UserController::class, 'sobre']);
 
 Route::get("/login", [UserController::class, 'login']);
-Route::get("/cadastro", [UserController::class, 'cadastro']);
+
 
 Route::get("/admin/login", [AdminController::class, 'login']);
 
@@ -33,5 +35,10 @@ Route::get("/admin/produtos", [AdminController::class, 'produtos']);
 Route::get("/admin/produtos/{slug}", [AdminController::class, 'find_product'])
     ->where('slug', '[A-Za-z0-9\-]+');
 
+Route::get("/cadastro", [UserController::class, 'cadastro']);
+
+Route::get('/admin/produtos/create', [AdminController::class, 'createProduto'])->name('produtos.create');
+
+Route::post('/admin/produtos', [AdminController::class, 'storeProduto'])->name('produtos.store');
 
 
