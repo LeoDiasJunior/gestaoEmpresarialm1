@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
 use Illuminate\Routing\Controller;
 use App\Models\Cliente;
 use Illuminate\Support\Str;
+use App\Models\Produto;
 
 class AdminController extends Controller
 {
@@ -59,22 +60,28 @@ class AdminController extends Controller
 
     public function storeProduto(Request $request)
     {
-        $request->validate([
-            'nome' => 'required|string|max:255',
-            'descricao' => 'required|string',
-            'preco' => 'required|numeric',
-            'imagem' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-        ]);
 
-        $path = $request->file('imagem')->store('products', 'public');
+    $request->validate([
+        'nome' => 'required|string|max:255',
+        'descricao' => 'required|string',
+        'preco' => 'required|numeric',
+        'imagem' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    ]);
 
-        Produto::create([
-            'nome' => $request->nome,
-            'descricao' => $request->descricao,
-            'preco' => $request->preco,
-            'imagem' => $path,
-        ]);
-
-        return redirect('/admin/produtos')->with('success', 'Produto cadastrado com sucesso!');
+    $imagemPath = null;
+    if ($request->hasFile('imagem')) {
+        $imagemPath = $request->file('imagem')->store('products', 'public');
     }
+
+    $produto = new Produto();
+    $produto->nome = $request->nome;
+    $produto->descricao = $request->descricao;
+    $produto->preco = $request->preco;
+    $produto->imagem = $imagemPath;
+    $produto->save();
+
+    return redirect()->route('admin.produtos')->with('success', 'Produto cadastrado!');
+}
+
+
 }
