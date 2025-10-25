@@ -1,4 +1,3 @@
-
 @extends('layouts.app')
 
 @section('title', 'Produtos')
@@ -48,22 +47,26 @@
                     <th>Nome</th>
                     <th>Descrição</th>
                     <th>Preço</th>
+                    <th>Ações</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($produtos as $produto)
                     <tr>
-                        <td>{{ $produto->id }}</td>
+                        <td>{{ $produto['id'] }}</td>
                         <td>
-                            @if($produto->imagem)
-                                <img src="{{ asset('storage/' . $produto->imagem) }}" alt="{{ $produto->nome }}" width="60">
+                            @if(isset($produto['imagem']) && $produto['imagem'])
+                                <img src="{{ asset('storage/' . $produto['imagem']) }}" alt="{{ $produto['nome'] }}" width="60">
                             @else
                                 <span class="text-muted">Sem imagem</span>
                             @endif
                         </td>
-                        <td>{{ $produto->nome }}</td>
-                        <td>{{ $produto->descricao }}</td>
-                        <td>R$ {{ number_format($produto->preco, 2, ',', '.') }}</td>
+                        <td>{{ $produto['nome'] }}</td>
+                        <td>{{ $produto['descricao'] }}</td>
+                        <td>R$ {{ number_format($produto['preco'], 2, ',', '.') }}</td>
+                        <td>
+                            <a href="{{ route('produtos.show', ['id' => $produto['id']]) }}" class="btn btn-primary btn-sm">Ver Produto</a>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
@@ -71,4 +74,5 @@
     </div>
 </div>
 @endsection
+
 

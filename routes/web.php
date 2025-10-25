@@ -38,6 +38,6 @@ Route::get("/admin/produtos/{slug}", [AdminController::class, 'find_product'])
 
 Route::get("/cadastro", [UserController::class, 'cadastro']);
 
-Route::post('/admin/produtos', [AdminController::class, 'storeProduto'])->name('produtos.store');
+Route::get('/produtos/{id}', [ProdutoController::class, 'show'])->name('produtos.show');
 
 
