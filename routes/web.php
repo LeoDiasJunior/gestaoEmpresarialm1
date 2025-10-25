@@ -19,7 +19,7 @@ Route::get('/sobre', [UserController::class, 'sobre']);
 
 Route::get("/login", [UserController::class, 'login']);
 
-Route::post('/admin/produtos', [AdminController::class, 'storeProduto'])->name('produtos.store');
+Route::post('/admin/produtos', [AdminController::class, 'storeProduto'])->name('admin.produtos.store');
 
 Route::get("/admin/login", [AdminController::class, 'login']);
 
